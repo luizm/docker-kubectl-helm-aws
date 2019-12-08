@@ -1,0 +1,19 @@
+name: Publish Docker image to GitHub Package Registry
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+
+      - name: Publish docker image to GPR
+        uses: machine-learning-apps/gpr-docker-publish@master
+        id: docker
+        with:
+          IMAGE_NAME: "aws-kubctl-helm"
+          TAG: "latest"
+          DOCKERFILE_PATH: "./Dockerfile"
+          BUILD_CONTEXT: "./"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
